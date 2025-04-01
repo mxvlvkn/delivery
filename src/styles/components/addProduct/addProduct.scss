@@ -1,0 +1,123 @@
+.add-product {
+    padding-top: calc_rem(15);
+
+    &__title {
+        font-size: calc_rem(40);
+        font-weight: 700;
+        margin-bottom: calc_rem(40);
+    }
+    &__form {
+        display: inline-block;
+    }
+    &__label {
+        display: block;
+        font-size: calc_rem(12);
+        margin-bottom: calc_rem(1);
+    }
+    &__input {
+        display: block;
+        background-color: #eee;
+        border-bottom: 2px solid $contrast_text_color;
+        height: calc_rem(32);
+        width: calc_rem(350);
+        border-radius: calc_rem(3) calc_rem(3) calc_rem(0) calc_rem(0);
+        margin-bottom: calc_rem(15);
+        color: black;
+        padding: 5px 4px;
+        font-size: calc_rem(16);
+
+        &:disabled {
+            opacity: 0.4;
+        }
+    }
+    &__checkbox-container {
+        margin-bottom: calc_rem(15);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover  ~ .add-product__checkmark {
+            background-color: #dfe6e9;
+        }
+    }
+    &__input-checkbox {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &:checked  ~ .add-product__checkmark {
+            background-color: $contrast_text_color;
+            border-color: contrast_text_color_hover;
+        }
+        &:checked  ~ .add-product__checkmark:after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+    &__checkmark {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #eee;
+        border: 2px solid $subcontrast_text_color_hover;
+        border-radius: calc_rem(3);
+        margin-right: calc_rem(10);
+        position: relative;
+        transition-duration: 200ms;
+    }
+    &__checkbox-label {
+        font-size: calc_rem(16);
+    }
+    &__textarea {
+        display: block;
+        background-color: #eee;
+        border-bottom: 2px solid $contrast_text_color;
+        height: calc_rem(150);
+        width: calc_rem(350);
+        border-radius: calc_rem(3) calc_rem(3) calc_rem(0) calc_rem(0);
+        margin-bottom: calc_rem(15);
+        color: black;
+        padding: 5px 4px;
+        font-size: calc_rem(16);
+        resize: none;
+    }
+    &__submit {
+        display: block;
+        background-color: $contrast_text_color;
+        padding: calc_rem(7) calc_rem(7);
+        color: white;
+        font-weight: 700;
+        font-size: calc_rem(16);
+        border-radius: calc_rem(6);
+
+        &:hover {
+            background-color: $contrast_text_color_hover;
+        }
+    }
+    &__img-loader-container {
+        margin-bottom: calc_rem(15);
+    }
+    &__img-loader {
+        
+    }
+    &__submit-container {
+        margin-bottom: calc_rem(10);
+    }
+    &__err-msg {
+        font-size: calc_rem(13);
+        color: rgb(190, 6, 6);
+        font-weight: 700;
+        text-align: left;
+        max-width: calc_rem(350);
+    }
+}

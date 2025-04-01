@@ -1,0 +1,47 @@
+.reg {
+    &__popup {
+        width: calc_rem(350);
+        height: calc_rem(400);
+    }
+    &__form {
+        display: inline-block;
+        height: 90.2%;
+        position: relative;
+    }
+    &__label {
+        margin-bottom: calc_rem(0);
+        display: block;
+        font-size: calc_rem(14);
+    }
+    &__input {
+        margin-bottom: calc_rem(3);
+        border-top: calc_rem(2) solid #fff;
+        border-left: calc_rem(3) solid #fff;
+        border-right: calc_rem(2) solid #fff;
+    }
+    &__nick {
+        margin-bottom: calc_rem(15);
+    }
+    &__rpass {
+        margin-bottom: calc_rem(15);
+    }
+    &__code {
+        margin-bottom: calc_rem(5);
+    }
+    &__error {
+        font-size: calc_rem(12);
+        color: #f36;
+    }
+    &__submit {
+        width: calc_rem(110);
+        height: calc_rem(35);
+        position: absolute;
+        left: calc_rem(0);
+        bottom: calc_rem(0);
+    }
+    &__title {
+        font-size: calc_rem(20);
+        font-weight: bold;
+        margin-bottom: calc_rem(15);
+    }
+}

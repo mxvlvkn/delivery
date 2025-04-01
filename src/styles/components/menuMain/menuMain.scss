@@ -1,0 +1,26 @@
+.menu-main {
+    &__title {
+        font-weight: 700;
+        font-size: calc_rem(40);
+        margin-bottom: calc_rem(60);
+    }
+    &__category-title {
+        font-size: calc_rem(24);
+        font-weight: 700;
+        margin-bottom: calc_rem(35);
+    }
+    &__category-line {
+        display: block;
+        width: calc_rem(90);
+        height: calc_rem(4);
+        background-color: $subcontrast_text_color_hover;
+        margin-bottom: calc_rem(25);
+    }
+    &__item-cards {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: calc_rem(20);
+        margin-bottom: calc_rem(60);
+    }
+}

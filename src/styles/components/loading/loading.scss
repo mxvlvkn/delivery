@@ -1,0 +1,30 @@
+.loading {
+    &__container {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__img {
+        position: relative;
+        width: calc_rem(30);
+        height: calc_rem(30);
+        animation: rotate 1s infinite linear;
+
+        & > svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    }
+}
+
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

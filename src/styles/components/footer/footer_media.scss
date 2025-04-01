@@ -1,0 +1,30 @@
+@media (max-width: 44em) {
+    .header {
+        &__nav-list {
+            padding: calc_rem(14) calc_rem(10); 
+            flex-wrap: nowrap;
+            gap: calc_rem(8);
+            overflow-x: scroll;
+        }
+    }
+}
+
+@media (max-width: 32em) {
+    .header {
+        &__top {
+            height: calc_rem(70);
+        }
+        &__logo {
+            width: calc_rem(160);
+            height: calc_rem(50);
+        }
+        &__phone {
+            font-size: calc_rem(14);
+        }
+        &__address {
+            font-size: calc_rem(12);
+        }
+    }
+}
+
+

@@ -1,0 +1,50 @@
+.admin-header {
+    margin-bottom: calc_rem(20);
+    color: $header_text_color;
+    height: calc_rem(80);
+    background-color: $header_color;
+
+    & > .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+    }
+
+    &__left {
+
+    }
+    &__logo {
+        width: calc_rem(160);
+        height: calc_rem(60);
+        position: relative;
+
+        & > img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &__right {
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap: calc_rem(5);
+    }
+    &__nav {
+        display: flex;
+        gap: calc_rem(20);
+        flex-wrap: wrap;
+    }
+    &__nav-item {
+        cursor: pointer;
+        font-size: calc_rem(20);
+        font-weight: 700;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

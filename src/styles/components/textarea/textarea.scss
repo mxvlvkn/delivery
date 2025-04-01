@@ -1,0 +1,28 @@
+.textarea {
+    background-color: rgba($color: #000000, $alpha: 0.1);
+    border-radius: calc_rem(1);
+    font-size: calc_rem(14);
+    padding: calc_rem(4);
+    width: calc_rem(300);
+    height: calc_rem(100);
+    resize: none;
+    overflow-y: scroll;
+    box-shadow: inset 0px 0px 5px rgba(0,0,0,0.1);
+
+    &::-webkit-scrollbar {
+        width: calc_rem(3);
+        background-color: rgba(black, 0);
+    }
+    &::-webkit-scrollbar-track {
+        display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(rgb(135, 133, 133), 1);
+        border-radius: calc_rem(40);
+        border: 1px solid rgba(rgb(135, 133, 133), 1);
+    }
+}
+
+._error {
+    border-left: calc_rem(3) solid #f36 !important;
+}

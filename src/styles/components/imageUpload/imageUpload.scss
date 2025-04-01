@@ -1,0 +1,33 @@
+.upload {
+    &__title {
+        font-size: calc_rem(20);
+        font-weight: bold;
+        margin-bottom: calc_rem(20);
+    }
+    &__form {}
+    &__img-container {
+        margin-bottom: calc_rem(2);
+        max-width: calc_rem(300);
+        border-radius: calc_rem(1);
+    }
+    &__img {
+        position: relative;
+        padding-top: 52.35%;
+        background-color:  rgba(128, 128, 128, 0.562);
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        box-shadow: inset 0px 0px 5px rgba(0,0,0,0.3);
+    }
+    &__input {
+        margin-bottom: calc_rem(1);
+        transform: scale(0.8);
+        margin-left: -25px;
+        border: none;
+    }
+    &__submit {
+        width: calc_rem(80);
+        height: calc_rem(25);
+        font-size: calc_rem(14);
+    }
+}
