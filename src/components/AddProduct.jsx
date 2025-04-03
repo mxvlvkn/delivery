@@ -19,8 +19,8 @@ export function AddProduct() {
     });
     const [errMsg, setErrMsg] = useState('');
 
-    const [fetching, isLoading] = useFetching(async () => {
-        return await FetchService.login(values);
+    const [fetching, isLoading] = useFetching(async (dataToSend) => {
+        return await FetchService.addProduct(dataToSend);
     })
 
     const submitHandle = (event) => {
@@ -38,7 +38,12 @@ export function AddProduct() {
     }
 
     const proccessDataRes = async () => {
-        const DataRes = await fetching();
+        const formData = new FormData();
+        Object.entries(values).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+        const DataRes = await fetching(formData);
         console.log(DataRes)
         
         if (!DataRes.status) {
@@ -47,7 +52,15 @@ export function AddProduct() {
         }
         setErrMsg('');
 
-        navigate('/adpn')        
+        // navigate('/adpn')        
+    };
+
+    const onChangeNumberInput = (name, value) => {
+        // Минус не предусмотрен
+        value = value.replace(/^0+(?=\d)/, "").replace(/\D/, "");
+        if (value === '') value = 0;
+
+        setValues({...values, [name]: Number(value)});
     };
 
     return (<>
@@ -64,7 +77,8 @@ export function AddProduct() {
                 <input 
                     name="add_product_name" 
                     id="add_product_name" 
-                    type="text" className="add-product__input"
+                    type="text" 
+                    className="add-product__input"
                     value={values.name} 
                     onChange={(e) => setValues({...values, name: e.target.value})}
                 />
@@ -72,19 +86,21 @@ export function AddProduct() {
                 <input 
                     name="add_product_weight" 
                     id="add_product_weight" 
-                    type="number" 
+                    type="text" 
+                    inputMode="numeric" 
                     className="add-product__input"
                     value={values.weight} 
-                    onChange={(e) => setValues({...values, weight: e.target.value})} 
+                    onChange={(e) => onChangeNumberInput('weight', e.target.value)} 
                 />
                 <label htmlFor="add_product_price" className="add-product__label">Цена</label>
                 <input 
                     name="add_product_price" 
                     id="add_product_price" 
-                    type="number" 
+                    type="text" 
+                    inputMode="numeric"
                     className="add-product__input" 
                     value={values.price} 
-                    onChange={(e) => setValues({...values, price: e.target.value})}
+                    onChange={(e) => onChangeNumberInput('price', e.target.value)}
                 />
                 <label className="add-product__checkbox-container">
                     <input
@@ -102,10 +118,12 @@ export function AddProduct() {
                 <input 
                     disabled={!values.isSale}
                     name="add_product_sale_price" 
-                    id="add_product_sale_price" type="text" 
+                    id="add_product_sale_price" 
+                    type="text" 
+                    inputMode="numeric"
                     className="add-product__input"
                     value={values.salePrice}
-                    onChange={(e) => setValues({...values, salePrice: e.target.value})}
+                    onChange={(e) => onChangeNumberInput('salePrice', e.target.value)}
                 />
                 <label htmlFor="add_product_desc" className="add-product__label">Описание</label>
                 <textarea 

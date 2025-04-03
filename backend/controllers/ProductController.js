@@ -1,59 +1,63 @@
-import {} from 'dotenv/config'
-import bcrypt from 'bcrypt';
 import ValidationService from '../services/ValidationService.js';
 import ResService from '../services/ResService.js';
+import FilesService from '../services/FilesService.js';
 import BDService from '../services/BDService.js';
-import TokenService from '../services/TokenService.js';
 import ExceptionHandler from '../exceptions/ExceptionHandler.js'
-const passSalt = process.env.passSalt;
 import formidable from 'formidable';
+import path, { dirname } from "path";
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = dirname(__filename);
 
 export default class ProductController {
     constructor() {
-        //this.sendEmailCode = this.sendEmailCode.bind(this);
+        this.parseFormData = this.parseFormData.bind(this);
     }
-    static async createPost(req, res, next) {
+
+    static async parseFormData(req) {
+        return new Promise((resolve, reject) => {
+            const form = formidable({});
+            form.parse(req, (err, fields, files) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve([fields, files])
+                }
+            });
+        });
+      };
+
+    static async addProduct(req, res, next) {
         try {
-            let values;
-            let files;
+            let values = {};
+            let files = {};
             try {
-                const form = formidable({});
-                let [values, files] = await form.parse(req);
-                console.log(values)
-                console.log(files)
+                [values, files] = await ProductController.parseFormData(req);
             } catch (err) {
                 console.log('FormData parse error ' + err);
                 throw ExceptionHandler.InternalServerError();
             }
 
-            // validation
+            // Переводим в нормальный обьект вместо {field: ["value"]}
+            values = Object.fromEntries(
+                Object.entries(values).map(([key, value]) => [key, value[0]])
+            );
+            values.weight = Number(values.weight);
+            values.price = Number(values.price);
+            values.salePrice = Number(values.salePrice);
+            values.isSale = values.isSale === 'true';   
 
-            
-
-            ResService.create(res, 200, {message: 'OK'});
-        } catch (error) {
-            console.log(error)
-            next(error);
-        }
-    }
-    static async createPost(req, res, next) {
-        try {
-            let values;
-            let files;
-            try {
-                const form = formidable({});
-                let [values, files] = await form.parse(req);
-                console.log(values)
-                console.log(files)
-            } catch (err) {
-                console.log('FormData parse error ' + err);
-                throw ExceptionHandler.InternalServerError();
+            const ValidData = ValidationService.addProduct(values, files);
+            if (!ValidData.status) {
+                console.log('Invalid login data');
+                throw ExceptionHandler.BadRequest(ValidData.errorMessage);
             }
 
-            // validation
+            const FileExp = files.image[0].originalFilename.split('.')[files.image[0].originalFilename.split('.').length - 1];
+            FilesService.saveImage(path.join(__dirname, "..", "uploads", `{${values.name.replaceAll(" ", "_")}.${FileExp}}`), files.image[0]);
 
-            
+            // Сохранить данные в бд
 
             ResService.create(res, 200, {message: 'OK'});
         } catch (error) {

@@ -4,6 +4,6 @@ import authMiddleware from '../middlewares/authMiddleware.js';
 
 const ProductRouter = new Router();
 
-ProductRouter.post('/add', authMiddleware, ProductController.createPost);
+ProductRouter.post('/add', authMiddleware, ProductController.addProduct);
 
 export default ProductRouter;

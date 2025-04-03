@@ -12,7 +12,7 @@ app.use(cookieParser());
 CorsService.set(app);
 
 app.use('/auth/', AuthRouter);
-app.use('/product/', ProductRouter);
+app.use('/products/', ProductRouter);
 app.use(errorMiddleware);
 
 function start() {

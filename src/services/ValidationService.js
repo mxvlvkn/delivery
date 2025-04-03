@@ -47,7 +47,7 @@ export default class ValidationService {
         }
 
         if (weightIsNumber) {
-            if (!values.weight <= 0) {
+            if (values.weight <= 0) {
                 const message = 'Вес должен быть больше нуля, ';
                 if (errorMessage.length + message.length < maxErrorLen) {
                     errorMessage += message;
@@ -65,7 +65,7 @@ export default class ValidationService {
         }
 
         if (priceIsNumber) {
-            if (!values.price <= 0) {
+            if (values.price <= 0) {
                 const message = 'Цена должена быть больше нуля, ';
                 if (errorMessage.length + message.length < maxErrorLen) {
                     errorMessage += message;
@@ -91,7 +91,7 @@ export default class ValidationService {
             }
 
             if (SalePriceIsNumber) {
-                if (!values.salePrice <= 0) {
+                if (values.salePrice <= 0) {
                     const message = 'Скидочная цена должена быть больше нуля, ';
                     if (errorMessage.length + message.length < maxErrorLen) {
                         errorMessage += message;

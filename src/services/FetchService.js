@@ -6,7 +6,7 @@ export default class FetchService {
         this.send = this.send.bind(this);
       }
 
-    static async send(url, dataToSend) {
+    static async sendJSON(url, dataToSend = {}) {
         return axios.post(url, JSON.stringify(dataToSend), {
             withCredentials: true,
             headers: {
@@ -47,16 +47,60 @@ export default class FetchService {
         });
     }
 
+    static async sendFormData(url, dataToSend) {
+        return axios.post(url, dataToSend, {
+            withCredentials: true,
+            headers: {}
+        })
+        .then(response => {
+            return {
+                status: (response.status === 200) ? true : false,
+                msg: response.data.msg || "",
+                data: response.data.data || []
+            }
+        })
+        .catch(error => {
+            if (error.code === 'ERR_NETWORK') {
+                return {
+                    status: false,
+                    msg: 'Ошибка соединения с сервером',
+                    data: null
+                }
+            }
+            
+            const ResData = error.response.data;
+            if ('status' in ResData) {
+                return {
+                    status: (error.response.status == 200) ? true : false,
+                    msg: ResData.msg || "",
+                    data: ResData.data || []
+                }
+            }
+
+            console.log('Fetch service: ' + error)
+            return {
+                status: false,
+                msg: 'Непредвиденная ошибка',
+                data: null
+            }
+        });
+    }
+
     static async login(dataToSend) {
-        return await this.send(
+        return await this.sendJSON(
             `${serverHost}/auth/login`,
             dataToSend
         );
     }
     static async checkAuth() {
-        return await this.send(
-            `${serverHost}/auth/check`,
-            {}
+        return await this.sendJSON(
+            `${serverHost}/auth/check`
+        );
+    }
+    static async addProduct(dataToSend) {
+        return await this.sendFormData(
+            `${serverHost}/products/add`,
+            dataToSend
         );
     }
     static async createPost(data) {
