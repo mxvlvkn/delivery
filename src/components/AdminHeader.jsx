@@ -1,9 +1,15 @@
 import LogoIMG from '../assets/logo_white.png';
 import { useNavigate } from 'react-router-dom';
+import FetchService from '../services/FetchService.js';
 
-
-export function AdminHeader(props) {
+export function AdminHeader() {
     const navigate = useNavigate();
+
+    const logoutHandle = () => {
+        FetchService.deleteToken();
+        localStorage.setItem('login', 'false');
+        navigate('/adpn-login');
+    };
 
     return (<>
         <header className="admin-header">
@@ -27,6 +33,10 @@ export function AdminHeader(props) {
                             className="admin-header__nav-item"
                             onClick={() => navigate('/adpn-orders')}
                         >Заказы</p>
+                        <p 
+                            className="admin-header__nav-item admin-header__logout"
+                            onClick={logoutHandle}
+                        >Выход</p>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FetchService from '../services/FetchService';
 
 
-export function CheckAuth() {
+export function CheckAuth({setIsAuthorized}) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -11,12 +11,17 @@ export function CheckAuth() {
     }, []);
 
     const checkAuth = async () => {
+        if (localStorage.getItem('login') === 'false') {
+            navigate('/adpn-login');
+        }
+
         const AuthData = await FetchService.checkAuth();
-
-        console.log(AuthData)
-
         if (!AuthData.status) {
             navigate('/adpn-login');
+        } else {
+            if (setIsAuthorized) {
+                setIsAuthorized(true);
+            }
         }
     };
 

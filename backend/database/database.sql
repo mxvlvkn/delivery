@@ -11,3 +11,14 @@ create TABLE user_token(
     user_id INTEGER,
     token text
 );
+
+create TABLE product(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    is_sale BOOLEAN,
+    sale_price INTEGER,
+    price INTEGER,
+    weight INTEGER,
+    description VARCHAR(300),
+    img VARCHAR(120)
+);

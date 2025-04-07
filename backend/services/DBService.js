@@ -64,7 +64,7 @@ export default class DBService {
                 status: ResData.length > 0
             };
         } catch(err) {
-            console.log('BD: get is token exist: ' + err);
+            console.log('DB: get is token exist: ' + err);
             
             return {
                 data: [],
@@ -81,8 +81,147 @@ export default class DBService {
                 status: true
             };
         } catch(err) {
-            console.log('DB: save token error: ' + err);
+            console.log('DB: delete token error: ' + err);
             
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async addProduct(values, path, exp) {
+        try {
+            return {
+                data: {
+                    id: (await database.query('SELECT save_product($1, $2, $3, $4, $5, $6, $7, $8)', [
+                        values.name, 
+                        values.isSale, 
+                        values.salePrice, 
+                        values.price, 
+                        values.weight, 
+                        values.desc,
+                        path, 
+                        exp
+                    ]))
+                },
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: add product error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async getProducts() {
+        try {
+            const ResData = (await database.query('SELECT * FROM product ORDER BY id DESC')).rows
+
+            return {
+                data: ResData.map((item) => ({
+                    desc: item.description,
+                    id: item.id,
+                    image: item.img,
+                    isSale: item.is_sale,
+                    name: item.name,
+                    price: item.price,
+                    salePrice: item.sale_price,
+                    weight: item.weight
+                })),
+                status: Array.isArray(ResData)
+            };
+        } catch(err) {
+            console.log('DB: get products: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async deleteProduct(id) {
+        try {
+            const Res = (await database.query('DELETE FROM product WHERE id = $1 RETURNING *', [id])).rows[0];
+            return {
+                data: Res,
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: save delete product: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async getProduct(id) {
+        try {
+            const ResData = (await database.query('SELECT * FROM product WHERE id = $1', [id])).rows[0];
+
+            return {
+                data: {
+                    desc: ResData.description,
+                    id: ResData.id,
+                    image: ResData.img,
+                    isSale: ResData.is_sale,
+                    name: ResData.name,
+                    price: ResData.price,
+                    salePrice: ResData.sale_price,
+                    weight: ResData.weight
+                },
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: get product: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async setProductByID(id, values, path = '') {
+        try {
+            if (path) {
+                await database.query(
+                    'UPDATE product SET name = $1, is_sale = $2, sale_price = $3, price = $4, weight = $5, description = $6, img = $7 WHERE id = $8',
+                    [
+                        values.name,
+                        values.isSale,
+                        values.salePrice,
+                        values.price,
+                        values.weight,
+                        values.desc,
+                        path,
+                        values.id,
+                    ]
+                );
+            } else {
+                await database.query(
+                    'UPDATE product SET name = $1, is_sale = $2, sale_price = $3, price = $4, weight = $5, description = $6 WHERE id = $7',
+                    [
+                        values.name,
+                        values.isSale,
+                        values.salePrice,
+                        values.price,
+                        values.weight,
+                        values.desc,
+                        values.id,
+                    ]
+                );
+            }
+            
+
+            return {
+                data: {},
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: set product by ID error: ' + err);
+
             return {
                 data: [],
                 status: false

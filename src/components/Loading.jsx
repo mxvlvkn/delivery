@@ -1,4 +1,4 @@
-export function Loading(props) {
+export function Loading() {
     const Color = '#000000'
 
     return (

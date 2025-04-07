@@ -1,18 +1,16 @@
 import {Route, Routes, useLocation} from 'react-router-dom'
 import {MenuMain} from './pages/MenuMain.jsx'
-import React, {useContext, useLayoutEffect} from 'react'
-import ColorService from './services/ColorService.js';
-import { ColorContext } from './providers/ColorProvider.jsx'
+import React from 'react'
 import { Header } from './components/Header.jsx';
 import { AdminHeader } from './components/AdminHeader.jsx';
 import { Footer } from './components/Footer.jsx';
-import { ProductList } from './components/ProductList.jsx';
-import { AddProduct } from './components/AddProduct.jsx';
-import { Login } from './components/Login.jsx';
+import { ProductList } from './pages/ProductList.jsx';
+import { AddProduct } from './pages/AddProduct.jsx';
+import { SetProduct } from './pages/SetProduct.jsx';
+import { Login } from './pages/Login.jsx';
 
 function App() {
     const location = useLocation();
-    const {color, setColor} = useContext(ColorContext);
 
     const UrlsForUsers = [
         '/',
@@ -25,18 +23,13 @@ function App() {
         '/adpn-categories',
         '/adpn-orders', 
         '/adpn-add',
+        '/adpn-set',
     ]
-
-    useLayoutEffect(() => {
-        ColorService.setTheme(setColor, localStorage.getItem("color"));
-    }, []);
-
-    console.log()
 
     return (
         <>
             {UrlsForUsers.includes(location.pathname) && <Header/>}
-            {UrlsForAdmins.includes(location.pathname) && <AdminHeader/>}
+            {UrlsForAdmins.some(url => location.pathname.startsWith(url)) && <AdminHeader />}
             <main>
             <div className='content'>
                 <Routes>
@@ -45,6 +38,7 @@ function App() {
                 <Route path="/adpn" element={<ProductList/>}/>
                 <Route path="/adpn-products" element={<ProductList/>}/>
                 <Route path="/adpn-add" element={<AddProduct/>}/>
+                <Route path="/adpn-set/:id" element={<SetProduct/>}/>
                 <Route path="/adpn-login" element={<Login/>}/>
                 </Routes>
             </div>

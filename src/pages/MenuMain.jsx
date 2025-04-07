@@ -1,6 +1,4 @@
-import React, {useContext} from 'react'
-import {Header} from '../components/Header.jsx'
-import { Navigation } from '../components/Navigation.jsx'
+import React from 'react'
 import { ItemCard } from '../components/ItemCard.jsx'
 
 export function MenuMain() {

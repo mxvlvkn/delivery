@@ -1,12 +1,8 @@
-import {} from 'dotenv/config'
-import bcrypt from 'bcrypt';
 import ValidationService from '../services/ValidationService.js';
 import ResService from '../services/ResService.js';
 import DBService from '../services/DBService.js';
 import TokenService from '../services/TokenService.js';
 import ExceptionHandler from '../exceptions/ExceptionHandler.js'
-const passSalt = process.env.passSalt;
-
 
 export default class AuthController {
     constructor() {
@@ -27,8 +23,6 @@ export default class AuthController {
 
             // Получаем пользователя из бд
             const DBUserDataRes = (await DBService.getUserByLogin(UserData.login));
-
-
             if (!DBUserDataRes.status) {
                 console.log('Database error')
                 throw ExceptionHandler.InternalServerError();
@@ -57,6 +51,21 @@ export default class AuthController {
     static async checkAuth(req, res, next) {
         try {
             const AccessToken = req.cookies.AccessToken;
+
+            await TokenService.validateAccessToken(AccessToken);
+            ResService.create(res, 200, {message: 'OK'});
+        } catch (error) {
+            next(error);
+        }
+    }
+    static async logout(req, res, next) {
+        try {
+            const AccessToken = req.cookies.AccessToken;
+
+            const DBRes = (await DBService.deleteToken(AccessToken));
+            if (!DBRes.status) {
+                console.log('Logout | Delete token err.');
+            }
 
             await TokenService.validateAccessToken(AccessToken);
             ResService.create(res, 200, {message: 'OK'});

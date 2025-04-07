@@ -16,7 +16,7 @@ export default class FetchService {
         .then(response => {
             return {
                 status: (response.status === 200) ? true : false,
-                msg: response.data.msg || "",
+                msg: response.data.msg || response.data.message || "",
                 data: response.data.data || []
             }
         })
@@ -30,13 +30,16 @@ export default class FetchService {
             }
             
             const ResData = error.response.data;
-            if ('status' in ResData) {
-                return {
-                    status: (error.response.status == 200) ? true : false,
-                    msg: ResData.msg || "",
-                    data: ResData.data || []
-                }
-            }
+            try {
+                if ('status' in ResData) {
+                    return {
+                        status: (error.response.status == 200) ? true : false,
+                        msg: ResData.msg || "",
+                        data: ResData.data || []
+                    }
+                }  
+            } catch {}
+            
 
             console.log('Fetch service: ' + error)
             return {
@@ -55,7 +58,7 @@ export default class FetchService {
         .then(response => {
             return {
                 status: (response.status === 200) ? true : false,
-                msg: response.data.msg || "",
+                msg: response.data.msg || response.data.message || "",
                 data: response.data.data || []
             }
         })
@@ -69,13 +72,15 @@ export default class FetchService {
             }
             
             const ResData = error.response.data;
-            if ('status' in ResData) {
-                return {
-                    status: (error.response.status == 200) ? true : false,
-                    msg: ResData.msg || "",
-                    data: ResData.data || []
+            try {
+                if ('status' in ResData) {
+                    return {
+                        status: (error.response.status == 200) ? true : false,
+                        msg: ResData.msg || "",
+                        data: ResData.data || []
+                    }
                 }
-            }
+            } catch {}
 
             console.log('Fetch service: ' + error)
             return {
@@ -103,28 +108,32 @@ export default class FetchService {
             dataToSend
         );
     }
-    static async createPost(data) {
-        return await fetch(`${serverHost}/create_post`, {
-            method: 'POST', 
-            body: data,
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        .then(async (res) => {
-            const status = res.status;
-            const data = await res.json();
-
-            return {
-                status: (status == 200) ? true : false,
-                data
-            }
-        })
-        .catch(() => {
-            return {
-                status: false,
-                data: null
-            }
-        });
+    static async getProducts() {
+        return await this.sendJSON(
+            `${serverHost}/products/getAll`
+        );
+    }
+    static async deleteProduct(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/products/delete`,
+            dataToSend
+        );
+    }
+    static async getProduct(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/products/get`,
+            dataToSend
+        );
+    }
+    static async setProduct(dataToSend) {
+        return await this.sendFormData(
+            `${serverHost}/products/set`,
+            dataToSend
+        );
+    }
+    static async deleteToken() {
+        return await this.sendJSON(
+            `${serverHost}/auth/logout`
+        );
     }
 }

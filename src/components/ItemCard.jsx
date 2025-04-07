@@ -1,8 +1,4 @@
 import CardIMG from '../assets/test.avif';
-import {useContext, useState} from 'react'
-import {ColorContext} from '../providers/ColorProvider.jsx';
-import ColorService from '../services/ColorService.js';
-
 
 export function ItemCard(props) {
 
