@@ -1,0 +1,171 @@
+@media (max-width: 78em) {
+    .product-page {
+        &__main {
+            display: flex;
+            gap: calc_rem(20);
+        }
+        &__title {
+            font-size: calc_rem(30);
+            margin-bottom: calc_rem(14);
+        }
+        &__price-container {
+            gap: calc_rem(2);
+            font-size: calc_rem(20);
+            margin-bottom: calc_rem(25);
+        }
+        &__price-info {
+            gap: calc_rem(4);
+        }
+        &__to-card-btn {
+            padding: calc_rem(8) calc_rem(12);
+            font-size: calc_rem(14);
+            margin-bottom: calc_rem(25);
+        }
+        &__desc {
+            font-size: calc_rem(18);
+            line-height: 1.1;
+            margin-bottom: calc_rem(10);
+        }
+        &__weight-container {
+            font-size: calc_rem(16);
+        }
+        &__weight-title {
+            margin-right: calc_rem(5);
+        }
+        &__weight {
+            margin-right: calc_rem(1);
+        }
+    }
+}
+
+@media (max-width: 60em) {
+    .product-page {
+        &__main {
+            display: block;
+            gap: calc_rem(20);
+        }
+        &__photo-container {
+            width: calc_rem(500);
+            margin-bottom: calc_rem(10);
+        }
+        &__title {
+            font-size: calc_rem(30);
+            margin-bottom: calc_rem(14);
+        }
+        &__price-container {
+            gap: calc_rem(2);
+            font-size: calc_rem(20);
+            margin-bottom: calc_rem(25);
+        }
+        &__price-info {
+            gap: calc_rem(4);
+        }
+        &__to-card-btn {
+            padding: calc_rem(8) calc_rem(12);
+            font-size: calc_rem(14);
+            margin-bottom: calc_rem(25);
+        }
+        &__desc {
+            font-size: calc_rem(18);
+            line-height: 1.1;
+            margin-bottom: calc_rem(10);
+        }
+        &__weight-container {
+            font-size: calc_rem(16);
+        }
+        &__weight-title {
+            margin-right: calc_rem(5);
+        }
+        &__weight {
+            margin-right: calc_rem(1);
+        }
+    }
+}
+
+@media (max-width: 34em) {
+    .product-page {
+        &__main {
+            display: block;
+            gap: calc_rem(20);
+        }
+        &__photo-container {
+            width: calc_rem(400);
+            margin-bottom: calc_rem(10);
+        }
+        &__title {
+            font-size: calc_rem(30);
+            margin-bottom: calc_rem(14);
+        }
+        &__price-container {
+            gap: calc_rem(2);
+            font-size: calc_rem(20);
+            margin-bottom: calc_rem(25);
+        }
+        &__price-info {
+            gap: calc_rem(4);
+        }
+        &__to-card-btn {
+            padding: calc_rem(8) calc_rem(12);
+            font-size: calc_rem(14);
+            margin-bottom: calc_rem(25);
+        }
+        &__desc {
+            font-size: calc_rem(18);
+            line-height: 1.1;
+            margin-bottom: calc_rem(10);
+        }
+        &__weight-container {
+            font-size: calc_rem(16);
+        }
+        &__weight-title {
+            margin-right: calc_rem(5);
+        }
+        &__weight {
+            margin-right: calc_rem(1);
+        }
+    }
+}
+
+@media (max-width: 27em) {
+    .product-page {
+        &__main {
+            display: block;
+            gap: calc_rem(20);
+        }
+        &__photo-container {
+            width: calc_rem(350);
+            margin-bottom: calc_rem(10);
+        }
+        &__title {
+            font-size: calc_rem(26);
+            margin-bottom: calc_rem(12);
+        }
+        &__price-container {
+            gap: calc_rem(2);
+            font-size: calc_rem(18);
+            margin-bottom: calc_rem(20);
+        }
+        &__price-info {
+            gap: calc_rem(4);
+        }
+        &__to-card-btn {
+            padding: calc_rem(8) calc_rem(12);
+            font-size: calc_rem(14);
+            margin-bottom: calc_rem(18);
+        }
+        &__desc {
+            font-size: calc_rem(16);
+            line-height: 1.1;
+            margin-bottom: calc_rem(10);
+        }
+        &__weight-container {
+            font-size: calc_rem(14);
+        }
+        &__weight-title {
+            margin-right: calc_rem(5);
+        }
+        &__weight {
+            margin-right: calc_rem(1);
+        }
+    }
+}

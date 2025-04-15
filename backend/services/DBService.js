@@ -159,8 +159,10 @@ export default class DBService {
     }
     static async getProduct(id) {
         try {
-            const ResData = (await database.query('SELECT * FROM product WHERE id = $1', [id])).rows[0];
+            console.log(id)
 
+            const ResData = (await database.query('SELECT * FROM product WHERE id = $1', [id])).rows[0];
+            console.log(ResData)
             return {
                 data: {
                     desc: ResData.description,

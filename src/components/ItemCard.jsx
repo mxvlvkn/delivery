@@ -1,12 +1,17 @@
-import CardIMG from '../assets/test.avif';
+import { useNavigate } from 'react-router-dom';
 const SERVER_HOST = process.env.REACT_APP_SERVER_HOST;
 
 export function ItemCard({
     product
 }) {
+    const navigate = useNavigate();
+
 
     return (
-        <div className="item-card">
+        <div 
+            className="item-card"
+            onClick={() => (navigate(`/product/${product.id}`))}
+        >
             <div className="item-card__img"><img src={SERVER_HOST + product.image} alt="Item image" /></div>
             <div className="item-card__info">
                 <h3 className="item-card__title">{(product.name.length > 25) ? (product.name.substring(0, 25).trim() + '...') : product.name}</h3>

@@ -4,7 +4,6 @@ import {Navigation} from '../components/Navigation.jsx';
 import {useEffect, useState} from 'react'
 import FetchService from '../services/FetchService.js'
 import {useFetching} from "../hooks/useFetching.js";
-import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading.jsx';
 
 export function MenuMain() {
@@ -36,13 +35,12 @@ export function MenuMain() {
         }
         setGetMenuErr('');
 
-        console.log(ResData.data)
         setData(ResData.data)
     };
 
     return (<>
         <p className="menu-main__err">{getMenuErr}</p>
-        {!isLoadingGetMenu && <>
+        {((!isLoadingGetMenu) || (getMenuErr.length === 0)) && <>
             <Navigation
                 titles={[...titles]}
             />

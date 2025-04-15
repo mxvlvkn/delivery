@@ -1,0 +1,102 @@
+.product-page {
+
+
+    &__main {
+        display: flex;
+        gap: calc_rem(20);
+    }
+    &__photo-container {
+        flex-basis: 50%;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    &__photo {
+        position: relative;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        padding: 50%;
+        border-radius: calc_rem(2);
+        overflow: hidden;
+
+        & > img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__info {
+        flex-basis: 50%;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    &__title {
+        font-size: calc_rem(32);
+        font-weight: 700;
+        margin-bottom: calc_rem(14);
+    }
+    &__price-container {
+        display: flex;
+        gap: calc_rem(2);
+        font-size: calc_rem(22);
+        margin-bottom: calc_rem(25);
+    }
+    &__price-sale-info {
+        color: $contrast_text_color;
+    }
+    &__price-info {
+        display: flex;
+        gap: calc_rem(4);
+    }
+    &__price {
+        
+    }
+    &__price-valute {
+
+    }
+    &__price-valute {
+
+    }
+    &__to-card-btn {
+        padding: calc_rem(8) calc_rem(12);
+        font-size: calc_rem(14);
+        border: 2px solid $contrast_text_color;
+        border-radius: calc_rem(5);
+        transition-duration: 150ms;
+        color: black;
+        font-weight: bold;
+        margin-bottom: calc_rem(25);
+        
+
+        &:hover {
+            background-color: $contrast_text_color;
+            color: white;
+        }
+    }
+    &__desc {
+        color: #555555;
+        font-weight: bold;
+        font-size: calc_rem(22);
+        text-transform: uppercase;
+        text-align: justify;
+        line-height: 1.1;
+        margin-bottom: calc_rem(15);
+    }
+    &__weight-container {
+        color: #757575;
+        font-style: italic;
+        font-size: calc_rem(18);
+        display: flex;
+    }
+    &__weight-title {
+        margin-right: calc_rem(5);
+    }
+    &__weight {
+        font-weight: 300;
+        margin-right: calc_rem(1);
+    }
+    &__weight-metric {
+        
+    }
+}
