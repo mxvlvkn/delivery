@@ -1,14 +1,3 @@
-@media (max-width: 44em) {
-    .header {
-        &__nav-list {
-            padding: calc_rem(14) calc_rem(10); 
-            flex-wrap: nowrap;
-            gap: calc_rem(8);
-            overflow-x: scroll;
-        }
-    }
-}
-
 @media (max-width: 32em) {
     .header {
         &__top {

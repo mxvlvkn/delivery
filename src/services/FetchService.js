@@ -136,4 +136,50 @@ export default class FetchService {
             `${serverHost}/auth/logout`
         );
     }
+    static async addCategory(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/categories/add`,
+            dataToSend
+        );
+    }
+    static async getCategories() {
+        return await this.sendJSON(
+            `${serverHost}/categories/getAll`,
+        );
+    }
+    static async deleteCategory(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/categories/delete`,
+            dataToSend
+        );
+    }
+    static async getCategory(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/categories/get`,
+            dataToSend
+        );
+    }
+    static async setCategory(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/categories/set`,
+            dataToSend
+        );
+    }
+    static async addProductToCategory(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/categories/add-product-to-category`,
+            dataToSend
+        );
+    }
+    static async deleteProductFromCategory(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/categories/delete-product-from-category`,
+            dataToSend
+        );
+    }
+    static async getMenu() {
+        return await this.sendJSON(
+            `${serverHost}/categories/get-menu`,
+        );
+    }
 }

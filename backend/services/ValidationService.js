@@ -227,4 +227,58 @@ export default class ValidationService {
             status: (errorMessage) ? false : true
         }
     }
+    static  addCategory(values) {
+        let maxErrorLen = 500;
+        let errorMessage = '';  
+
+        if (!values.name.length) {
+            const message = 'Наименование пустое, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (values.name.length > 100) {
+            const message = 'Наименование больше 100 символов, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (errorMessage.length) {
+            errorMessage = (errorMessage.endsWith(', ') ? errorMessage.slice(0, -2) : errorMessage) + '.';
+        }
+
+        return {
+            errorMessage,
+            status: (errorMessage) ? false : true
+        }
+    }
+    static  setCategory(values) {
+        let maxErrorLen = 500;
+        let errorMessage = '';  
+
+        if (!values.name.length) {
+            const message = 'Наименование пустое, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (values.name.length > 100) {
+            const message = 'Наименование больше 100 символов, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (errorMessage.length) {
+            errorMessage = (errorMessage.endsWith(', ') ? errorMessage.slice(0, -2) : errorMessage) + '.';
+        }
+
+        return {
+            errorMessage,
+            status: (errorMessage) ? false : true
+        }
+    }
 }

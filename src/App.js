@@ -5,8 +5,11 @@ import { Header } from './components/Header.jsx';
 import { AdminHeader } from './components/AdminHeader.jsx';
 import { Footer } from './components/Footer.jsx';
 import { ProductList } from './pages/ProductList.jsx';
+import { Categories } from './pages/Categories.jsx';
 import { AddProduct } from './pages/AddProduct.jsx';
 import { SetProduct } from './pages/SetProduct.jsx';
+import { AddCategory } from './pages/AddCategory.jsx';
+import { SetCategory } from './pages/SetCategory.jsx';
 import { Login } from './pages/Login.jsx';
 
 function App() {
@@ -23,7 +26,10 @@ function App() {
         '/adpn-categories',
         '/adpn-orders', 
         '/adpn-add',
-        '/adpn-set',
+        '/adpn-product-set',
+        '/adpn-categories',
+        '/adpn-categories-add',
+        '/adpn-category-set',
     ]
 
     return (
@@ -31,17 +37,18 @@ function App() {
             {UrlsForUsers.includes(location.pathname) && <Header/>}
             {UrlsForAdmins.some(url => location.pathname.startsWith(url)) && <AdminHeader />}
             <main>
-            <div className='content'>
                 <Routes>
-                <Route path="/" element={<MenuMain/>}/>
-                <Route path="/menu" element={<MenuMain/>}/>
-                <Route path="/adpn" element={<ProductList/>}/>
-                <Route path="/adpn-products" element={<ProductList/>}/>
-                <Route path="/adpn-add" element={<AddProduct/>}/>
-                <Route path="/adpn-set/:id" element={<SetProduct/>}/>
-                <Route path="/adpn-login" element={<Login/>}/>
+                    <Route path="/" element={<MenuMain/>}/>
+                    <Route path="/menu" element={<MenuMain/>}/>
+                    <Route path="/adpn" element={<ProductList/>}/>
+                    <Route path="/adpn-products" element={<ProductList/>}/>
+                    <Route path="/adpn-add" element={<AddProduct/>}/>
+                    <Route path="/adpn-product-set/:id" element={<SetProduct/>}/>
+                    <Route path="/adpn-login" element={<Login/>}/>
+                    <Route path="/adpn-categories" element={<Categories/>}/>
+                    <Route path="/adpn-categories-add" element={<AddCategory/>}/>
+                    <Route path="/adpn-category-set/:id" element={<SetCategory/>}/>
                 </Routes>
-            </div>
             </main>
             <Footer/>
         </>

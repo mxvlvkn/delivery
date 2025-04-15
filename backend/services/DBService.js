@@ -149,7 +149,7 @@ export default class DBService {
                 status: true
             };
         } catch(err) {
-            console.log('DB: save delete product: ' + err);
+            console.log('DB: delete product: ' + err);
             
             return {
                 data: [],
@@ -196,7 +196,7 @@ export default class DBService {
                         values.weight,
                         values.desc,
                         path,
-                        values.id,
+                        id,
                     ]
                 );
             } else {
@@ -209,11 +209,10 @@ export default class DBService {
                         values.price,
                         values.weight,
                         values.desc,
-                        values.id,
+                        id,
                     ]
                 );
             }
-            
 
             return {
                 data: {},
@@ -228,63 +227,18 @@ export default class DBService {
             };
         }
     }
-    //;//;//;///;//;//;///;//;//;//;/;//;/;/;/;/;;/;/;/;//;/;;;;;;///;/;/;/;/;/;/;/;/;;//;/;/;/;
-
-    static async getCode() {
+    static async addCategory(values) {
         try {
-            return {
-                data: (await database.query('SELECT * FROM code')).rows[0].code,
-                status: true
-            };
-        } catch(err) {
-            console.log('BD: get code error: ' + err);
-        }
-    }
-    static async createUser(email, nickname, pass, roole) {
-        try {
-            (await database.query('INSERT INTO person (email, nickname, pass, roole) values ($1, $2, $3, $4)', [
-                email, 
-                nickname,  
-                pass, 
-                roole
+            (await database.query('INSERT INTO category (name) values ($1)', [
+                values.name,
             ]));
-
+            
             return {
                 data: [],
                 status: true
             };
         } catch(err) {
-            console.log('BD: create user error error: ' + err);
-
-            return {
-                data: [],
-                status: false
-            };
-        }
-    }
-    static async getUserByEmail(email) {
-        try {
-            return {
-                data: (await database.query('SELECT * FROM person WHERE email = $1', [email])).rows,
-                status: true
-            };
-        } catch(err) {
-            console.log('BD: get user by email error: ' + err);
-
-            return {
-                data: [],
-                status: false
-            };
-        }
-    }
-    static async getUserByNick(nick) {
-        try {
-            return {
-                data: (await database.query('SELECT * FROM person WHERE nickname = $1', [nick])).rows,
-                status: true
-            };
-        } catch(err) {
-            console.log('BD: get user by nick error: ' + err);
+            console.log('DB: add category error: ' + err);
             
             return {
                 data: [],
@@ -292,38 +246,16 @@ export default class DBService {
             };
         }
     }
-    static async checkUserExistence(email, nick) {
+    static async getCategories() {
         try {
-            if ((await this.getUserByEmail(email)).data.length) {
-                return {
-                    status: false,
-                    message: 'Пользователь с такой почтой уже существует'
-                }
-            }
-
-            if ((await this.getUserByNick(nick)).data.length) {
-                return {
-                    status: false,
-                    message: 'Пользователь с таким никнеймом уже существует'
-                }
-            }
+            const ResData = (await database.query('SELECT * FROM category ORDER BY id DESC')).rows
 
             return {
-                status: true,
-                message: ''
-            }
-        } catch(err) {
-            console.log('BD: get user existence error: ' + err);
-        }
-    }
-    static async getUserIdByToken(token) {
-        try {
-            return {
-                data: (await database.query('SELECT * FROM person_token WHERE token = $1', [token])).rows[0],
-                status: true
+                data: ResData,
+                status: Array.isArray(ResData)
             };
         } catch(err) {
-            console.log('BD: get user by token: ' + err);
+            console.log('DB: get categories: ' + err);
             
             return {
                 data: [],
@@ -331,21 +263,112 @@ export default class DBService {
             };
         }
     }
-    static async createPost(title, desc) {
+    static async deleteCategory(id) {
         try {
-            let data = (await database.query('INSERT INTO post (title, decs, file) values ($1, $2, $3)', [
-                title, 
-                desc,  
-                'none'
-            ]));
-
+            const Res = (await database.query('DELETE FROM category WHERE id = $1 RETURNING *', [id])).rows[0];
             return {
-                data,
+                data: Res,
                 status: true
             };
         } catch(err) {
-            console.log('BD: create user error error: ' + err);
+            console.log('DB: delete category: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async getCategory(id) {
+        try {
+            const ResData = (await database.query('SELECT * FROM category_with_all_products WHERE id = $1', [id])).rows[0];
 
+            return {
+                data: ResData,
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: get category: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async setCategoryByID(id, values) {
+        try {
+            await database.query(
+                'UPDATE category SET name = $1 WHERE id = $2',
+                [
+                    values.name,
+                    id,
+                ]
+            );
+
+            return {
+                data: {},
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: set category by ID error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async addProductToCategory(values) {
+        try {
+            (await database.query('INSERT INTO category_product (category_id, product_id) values ($1, $2)', [
+                values.categoryID,
+                values.productID
+            ]));
+            
+            return {
+                data: [],
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: add product to category error: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async deleteProductFromCategory(values) {
+        try {
+            const Res = (await database.query('DELETE FROM category_product WHERE category_id = $1 AND product_id = $2 RETURNING *', [
+                values.categoryID,
+                values.productID
+            ])).rows[0];
+            return {
+                data: Res,
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: delete product from category: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async getMenu() {
+        try {
+            const ResData = (await database.query('SELECT * FROM category_with_included_products')).rows
+
+            return {
+                data: ResData,
+                status: Array.isArray(ResData)
+            };
+        } catch(err) {
+            console.log('DB: get menu: ' + err);
+            
             return {
                 data: [],
                 status: false

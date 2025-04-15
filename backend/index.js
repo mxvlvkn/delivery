@@ -2,6 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import AuthRouter from './routers/AuthRouter.js';
 import ProductRouter from './routers/ProductRouter.js';
+import CategoryRouter from './routers/CategoryRouter.js';
 import CorsService from './services/CorsService.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import { fileURLToPath } from 'url';
@@ -19,6 +20,7 @@ CorsService.set(app);
 
 app.use('/auth/', AuthRouter);
 app.use('/products/', ProductRouter);
+app.use('/categories/', CategoryRouter);
 app.use(errorMiddleware);
 
 function start() {

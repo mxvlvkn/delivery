@@ -1,4 +1,10 @@
 .menu-main {
+    &__err {
+        width: 100%;
+        text-align: center;
+        font-size: calc_rem(20);
+        color: rgb(175, 0, 0);
+    }
     &__title {
         font-weight: 700;
         font-size: calc_rem(40);
@@ -18,9 +24,11 @@
     }
     &__item-cards {
         display: flex;
-        justify-content: center;
         flex-wrap: wrap;
         gap: calc_rem(20);
         margin-bottom: calc_rem(60);
+    }
+    &__loading {
+        padding-top: calc_rem(20);
     }
 }

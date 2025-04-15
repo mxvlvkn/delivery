@@ -1,0 +1,12 @@
+@media (max-width: 44em) {
+    .nav {
+        &__list {
+            padding: calc_rem(14) calc_rem(10); 
+            flex-wrap: nowrap;
+            gap: calc_rem(8);
+            overflow-x: scroll;
+        }
+    }
+}
+
+
