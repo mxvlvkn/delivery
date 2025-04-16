@@ -9,5 +9,6 @@ ProductRouter.post('/getAll', authMiddleware, ProductController.getProducts);
 ProductRouter.post('/delete', authMiddleware, ProductController.deleteProduct);
 ProductRouter.post('/get', ProductController.getProduct);
 ProductRouter.post('/set', authMiddleware, ProductController.setProduct);
+ProductRouter.post('/get-prices', ProductController.getPrices);
 
 export default ProductRouter;

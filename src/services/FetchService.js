@@ -182,4 +182,10 @@ export default class FetchService {
             `${serverHost}/categories/get-menu`,
         );
     }
+    static async getPrices(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/products/get-prices`,
+            dataToSend
+        );
+    }
 }

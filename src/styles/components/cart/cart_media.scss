@@ -1,8 +1,177 @@
-@media (max-width: 44em) {
+@media (max-width: 63em) {
     .cart {
-        
+        &__item {
+            grid-template-columns: calc_rem(90) calc_rem(350) calc_rem(100) calc_rem(120) calc_rem(50);
+            gap: 0 calc_rem(16); 
+            margin-bottom: calc_rem(15);
+        }
+        &__item-image {
+            width: calc_rem(90);
+            height: calc_rem(90);
+            border-radius: calc_rem(7);
+        }
+        &__item-name {
+            font-size: calc_rem(16);
+        }
+        &__item-counter-cont {
+            gap: calc_rem(10);
+        }
+        &__item-counter-minus {
+            width: calc_rem(30);
+            height: calc_rem(30);
+    
+            & img {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+        &__item-counter {
+            font-size: calc_rem(22);
+        }
+        &__item-counter-plus {
+            width: calc_rem(30);
+            height: calc_rem(30);
+    
+            & img {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+        &__item-price {
+            font-size: calc_rem(18);
+    
+            & span {
+                margin-left: calc_rem(3);
+            }
+        }
+        &__item-delete {
+            width: calc_rem(30);
+            height: calc_rem(30);
+
+            & button {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
     }
 }
 
+@media (max-width: 50em) {
+    .cart {
+        &__item {
+            grid-template-columns: calc_rem(90) calc_rem(350) calc_rem(100) calc_rem(120) calc_rem(50);
+            gap: 0 calc_rem(16); 
+            margin-bottom: calc_rem(15);
+        }
+        &__item-image {
+            width: calc_rem(90);
+            height: calc_rem(90);
+            border-radius: calc_rem(7);
+        }
+        &__item-name {
+            font-size: calc_rem(16);
+            margin-bottom: calc_rem(8);
+        }
+        &__item-counter-cont {
+            gap: calc_rem(10);
+        }
+        &__item-counter-minus {
+            width: calc_rem(25);
+            height: calc_rem(25);
+    
+            & img {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+        &__item-counter {
+            font-size: calc_rem(22);
+        }
+        &__item-counter-plus {
+            width: calc_rem(25);
+            height: calc_rem(25);
+    
+            & img {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+        &__item-price {
+            font-size: calc_rem(18);
+    
+            & span {
+                margin-left: calc_rem(3);
+            }
+        }
+        &__item-delete {
+            align-self: center;
+            width: calc_rem(25);
+            height: calc_rem(25);
 
+            & button {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+    }
+}
 
+@media (max-width: 35em) {
+    .cart {
+        &__item {
+            grid-template-columns: calc_rem(90) calc_rem(350) calc_rem(100) calc_rem(120) calc_rem(50);
+            gap: 0 calc_rem(16); 
+            margin-bottom: calc_rem(15);
+        }
+        &__item-image {
+            width: calc_rem(90);
+            height: calc_rem(90);
+            border-radius: calc_rem(7);
+        }
+        &__item-name {
+            font-size: calc_rem(14);
+            margin-bottom: calc_rem(8);
+        }
+        &__item-counter-cont {
+            gap: calc_rem(10);
+        }
+        &__item-counter-minus {
+            width: calc_rem(25);
+            height: calc_rem(25);
+    
+            & img {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+        &__item-counter {
+            font-size: calc_rem(22);
+        }
+        &__item-counter-plus {
+            width: calc_rem(25);
+            height: calc_rem(25);
+    
+            & img {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+        &__item-price {
+            font-size: calc_rem(18);
+    
+            & span {
+                margin-left: calc_rem(3);
+            }
+        }
+        &__item-delete {
+            align-self: center;
+            width: calc_rem(25);
+            height: calc_rem(25);
+
+            & button {
+                font-size: calc_rem(18);
+                line-height: 1;
+            }
+        }
+    }
+}

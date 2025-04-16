@@ -186,4 +186,31 @@ export default class ProductController {
             next(error);
         }
     }
+    static async getPrices(req, res, next) {
+        try { 
+            const IDs = req.body;
+
+            const DBDataRes = (await DBService.getPrices(IDs));
+
+            if (!DBDataRes.status) {
+                console.log('Database error')
+                throw ExceptionHandler.InternalServerError();
+            }
+
+            console.log(DBDataRes.data)
+
+            let prices = {};
+            DBDataRes.data.forEach((item) => {
+                prices[item.id] = item.is_sale ? item.sale_price : item.price;
+            });
+
+            ResService.create(res, 200, {
+                data: prices,
+                message: 'OK'
+            });
+        } catch (error) {
+            console.log(error)
+            next(error);
+        }
+    }
 }

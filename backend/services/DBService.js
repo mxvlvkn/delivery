@@ -377,4 +377,23 @@ export default class DBService {
             };
         }
     }
+    static async getPrices(IDs) {
+        try {
+            const Data = (await database.query('SELECT id, price, is_sale, sale_price FROM product WHERE id = ANY($1)', [
+                IDs
+            ])).rows;
+
+            return {
+                data: Data,
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: add product error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
 }
