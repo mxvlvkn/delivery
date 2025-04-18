@@ -5,6 +5,7 @@ import React from 'react';
 import {CartCounterContext} from '../providers/CartCounterProvider.jsx';
 import {useEffect, useState, useContext} from 'react';
 import FetchService from '../services/FetchService.js';
+import ValidationService from '../services/ValidationService.js';
 import CartService from '../services/CartService.js';
 import {useFetching} from "../hooks/useFetching.js";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,17 +23,17 @@ export function Cart() {
         address: '',
         flat: '',
         comment: '',
-        tools: ''
+        tools: '1'
     });
     const [isMobileSize, setIsMobileSize] = useState(false);
     const [getPricesErr, setGetPricesErr] = useState('');
-    const [getSendOrderErr, setSendOrderErr] = useState('');
+    const [sendOrderErr, setSendOrderErr] = useState('');
 
     const [fetchingGetPrices, isLoadingGetPrices] = useFetching(async (cartArr) => {
         return await FetchService.getPrices(cartArr.map(item => (item.id)));
     });
-    const [fetchingSendOrder, isLoadingSendOrder] = useFetching(async () => {
-        // return await FetchService.getProduct({ID: PRODUCT_ID});
+    const [fetchingSendOrder, isLoadingSendOrder] = useFetching(async (dataToSend) => {
+        return await FetchService.addOrder(dataToSend);
     });
 
     useEffect(() => {
@@ -108,8 +109,6 @@ export function Cart() {
 
         const digits = input.replace(/\D/g, '').replace(/^8/, '7');
 
-        console.log(digits)
-
         if (!digits) return '';
 
         let formatted = '+7';
@@ -137,32 +136,34 @@ export function Cart() {
     const submitHandle = (event) => {
         event.preventDefault();
 
-        // const ValidationData = ValidationService.setCategory(values);
+        const ValidationData = ValidationService.sendOrder(form);
 
-        //! Cделать загрузку и отображение ошибки
-
-        //! В валидации проверить даже select
-        // if (!ValidationData.status) {
-        //     setSendOrderErr(ValidationData.errorMessage);
-        //     return null;
-        // }
-        // setSendOrderErr('');
+        if (!ValidationData.status) {
+            setSendOrderErr(ValidationData.errorMessage);
+            return null;
+        }
+        setSendOrderErr('');
 
         proccessSendOrder();
     }
 
     const proccessSendOrder = async () => {  
-        //! Не забыть отправить корзину
-        // const DataRes = await fetchingSendOrder(form);
+        const DataToSend = {
+            ...form,
+            cart
+        }
+
+        const DataRes = await fetchingSendOrder(DataToSend);
+        console.log(DataRes)
         //! БЭК
         //! Пересчитать сумму
         //! Сохранить в бд (order, order_product, view order_with_products)
         
-        // if (!DataRes.status) {
-        //     setSendOrderErr(DataRes.msg);
-        //     return null;
-        // }
-        // setSendOrderErr('');
+        if (!DataRes.status) {
+            setSendOrderErr(DataRes.msg || 'Ошибка');
+            return null;
+        }
+        setSendOrderErr('');
 
         //! Очистить корзину
         //! Очистить поля
@@ -353,6 +354,8 @@ export function Cart() {
                             <p className="cart__final-price"><span>Итоговая сумма: </span>{getFinalPrice(cart)}<span>руб.</span></p>
                         </div>
                         <button className="cart__submit">ОФОРМИТЬ ЗАКАЗ</button>
+                        {isLoadingSendOrder && <Loading/>}
+                        {sendOrderErr && <p className="menu-main__err cart__err">{sendOrderErr}</p>}
                     </form>
                 </div>
             </div>

@@ -209,9 +209,14 @@
         max-width: calc_rem(500);
         font-size: calc_rem(18);
         font-weight: bold;
+        margin-bottom: calc_rem(15);
 
         &:hover {
             background-color: rgb(43, 43, 43);
         }
+    }
+    &__err {
+        text-align: left;
+        font-size: calc_rem(16);
     }
 }

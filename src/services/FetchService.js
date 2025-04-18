@@ -188,4 +188,10 @@ export default class FetchService {
             dataToSend
         );
     }
+    static async addOrder(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/orders/add`,
+            dataToSend
+        );
+    }
 }

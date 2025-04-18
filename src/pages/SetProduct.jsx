@@ -57,7 +57,14 @@ export function SetProduct() {
     const submitHandle = (event) => {
         event.preventDefault();
 
-        const ValidationData = ValidationService.setProduct(values);
+        const FormValues = {
+            ...values,
+            price: Number(values.price),
+            salePrice: Number(values.salePrice),
+            weight: Number(values.weight),
+        };
+
+        const ValidationData = ValidationService.setProduct(FormValues);
 
         if (!ValidationData.status) {
             setErrMsg(ValidationData.errorMessage);
@@ -65,12 +72,12 @@ export function SetProduct() {
         }
         setErrMsg('');
 
-        proccessDataRes();
+        proccessDataRes(FormValues);
     }
 
-    const proccessDataRes = async () => {
+    const proccessDataRes = async (formValues) => {
         const formData = new FormData();
-        Object.entries(values).forEach(([key, value]) => {
+        Object.entries(formValues).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -92,7 +99,29 @@ export function SetProduct() {
         value = value.replace(/^0+(?=\d)/, "").replace(/\D/, "");
         if (value === '') value = 0;
 
+        console.log(Number(value))
+
         setValues({...values, [name]: Number(value)});
+    };
+
+    const onChangePriceInput = (name, value) => {
+        value = value
+            .replace(',', '.')                
+            .replace(/[^0-9.]/g, '')          
+            .replace(/^0+(?=\d)/, '')         
+            .replace(/(\..*?)\./g, '$1');     
+    
+        const parts = value.split('.');
+        if (parts.length > 1) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts[0] + '.' + parts[1];
+        }
+    
+        if (value === '' || value === '.') {
+            value = 0;
+        }
+    
+        setValues({ ...values, [name]: value });
     };
 
     const doNavigate = () => {
@@ -152,7 +181,7 @@ export function SetProduct() {
                             inputMode="numeric"
                             className="add-product__input" 
                             value={values.price} 
-                            onChange={(e) => onChangeNumberInput('price', e.target.value)}
+                            onChange={(e) => onChangePriceInput('price', e.target.value)}
                         />
                         <label className="add-product__checkbox-container">
                             <input
@@ -175,7 +204,7 @@ export function SetProduct() {
                             inputMode="numeric"
                             className="add-product__input"
                             value={values.salePrice}
-                            onChange={(e) => onChangeNumberInput('salePrice', e.target.value)}
+                            onChange={(e) => onChangePriceInput('salePrice', e.target.value)}
                         />
                         <label htmlFor="add_product_desc" className="add-product__label">Описание</label>
                         <textarea 
@@ -212,8 +241,7 @@ export function SetProduct() {
                     </form>
                 </div>
             }
-            {!isAuthorized && <Loading/>}
-            {isLoadingFillFields && <Loading/>}
+            {(!isAuthorized || isLoadingFillFields) && <Loading/>}
         </div>
     </>)
 }

@@ -170,9 +170,9 @@ export default class DBService {
                     image: ResData.img,
                     isSale: ResData.is_sale,
                     name: ResData.name,
-                    price: ResData.price,
-                    salePrice: ResData.sale_price,
-                    weight: ResData.weight
+                    price: Number(ResData.price),
+                    salePrice: Number(ResData.sale_price),
+                    weight: Number(ResData.weight)
                 },
                 status: true
             };

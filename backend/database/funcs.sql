@@ -1,8 +1,8 @@
 CREATE OR REPLACE FUNCTION save_product(
     name VARCHAR(100),
     is_sale BOOLEAN,
-    sale_price INTEGER,
-    price INTEGER,
+    sale_price NUMERIC(10, 2),
+    price NUMERIC(10, 2),
     weight INTEGER,
     description VARCHAR(300),
     img_path VARCHAR(120),
