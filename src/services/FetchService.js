@@ -194,4 +194,16 @@ export default class FetchService {
             dataToSend
         );
     }
+    static async getOrders() {
+        return await this.sendJSON(
+            `${serverHost}/orders/get`,
+            
+        );
+    }
+    static async setOrderStatus(dataToSend) {
+        return await this.sendJSON(
+            `${serverHost}/orders/set-status`,
+            dataToSend
+        );
+    }
 }

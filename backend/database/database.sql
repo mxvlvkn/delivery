@@ -43,7 +43,10 @@ create TABLE orders (
     flat  VARCHAR(110),
     comment  VARCHAR(410),
     tools  VARCHAR(30),
-    price  NUMERIC(10, 2)
+    price  NUMERIC(10, 2),
+    status VARCHAR(40),
+    order_date DATE,
+    order_time TIME
 );
 
 create TABLE product_in_order(

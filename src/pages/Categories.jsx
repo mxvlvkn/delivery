@@ -107,6 +107,9 @@ export function Categories() {
                                 className="categories__add"
                                 onClick={() => navigate('/adpn-categories-add')}
                             >Добавить</button>
+                            {isLoadingDelete && <Loading/>}
+                            {isLoadingFill && <Loading/>}
+                            {isError && <p className="categories__error-top">Ошибка!</p>}
                         </div>
                         <div className="categories__top-container-right">
                             <input 
@@ -115,9 +118,6 @@ export function Categories() {
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
                             />
-                            {isLoadingDelete && <Loading/>}
-                            {isLoadingFill && <Loading/>}
-                            {isError && <p className="categories__error-top">Ошибка!</p>}
                         </div>
                     </div>
                     <div className="categories__list">

@@ -10,6 +10,7 @@ import CartService from '../services/CartService.js';
 import {useFetching} from "../hooks/useFetching.js";
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading.jsx';
+import { Popup } from '../components/Popup.jsx';
 const SERVER_HOST = process.env.REACT_APP_SERVER_HOST;
 
 export function Cart() {
@@ -25,6 +26,7 @@ export function Cart() {
         comment: '',
         tools: '1'
     });
+    const [popupAlertStatus, setPopupAlertStatus] = useState(false);
     const [isMobileSize, setIsMobileSize] = useState(false);
     const [getPricesErr, setGetPricesErr] = useState('');
     const [sendOrderErr, setSendOrderErr] = useState('');
@@ -94,10 +96,11 @@ export function Cart() {
     };
 
     const deleteHandle = async (id) => {
+        const DeletedCart = cart.find(item => item.id === id);
         const NewCart = cart.filter(item => item.id !== id);
 
         CartService.setCart(NewCart);
-        setCartCount(cartCount-1);
+        setCartCount(cartCount - DeletedCart.count);
         setCart(NewCart)
     };
 
@@ -136,7 +139,7 @@ export function Cart() {
     const submitHandle = (event) => {
         event.preventDefault();
 
-        const ValidationData = ValidationService.sendOrder(form);
+        const ValidationData = ValidationService.sendOrder(form, cart);
 
         if (!ValidationData.status) {
             setSendOrderErr(ValidationData.errorMessage);
@@ -154,10 +157,6 @@ export function Cart() {
         }
 
         const DataRes = await fetchingSendOrder(DataToSend);
-        console.log(DataRes)
-        //! БЭК
-        //! Пересчитать сумму
-        //! Сохранить в бд (order, order_product, view order_with_products)
         
         if (!DataRes.status) {
             setSendOrderErr(DataRes.msg || 'Ошибка');
@@ -165,9 +164,19 @@ export function Cart() {
         }
         setSendOrderErr('');
 
-        //! Очистить корзину
-        //! Очистить поля
-        //! Выкинуть в меню
+        setCart([]);
+        setCartCount(0);
+        CartService.setCart([]);
+        setFrom({
+            name: '',
+            phone: '',
+            delivery: 'self',
+            address: '',
+            flat: '',
+            comment: '',
+            tools: '1'
+        });
+        setPopupAlertStatus(true);
     };
 
     return (<>
@@ -345,10 +354,10 @@ export function Cart() {
                             <option value="2">На 2 персоны</option>
                             <option value="3">На 3 персоны</option>
                             <option value="4">На 4 персоны</option>
-                            <option value="5">На 5 персоны</option>
-                            <option value="6">На 6 персоны</option>
-                            <option value="7">На 7 персоны</option>
-                            <option value="8">На 8 персоны</option>
+                            <option value="5">На 5 персон</option>
+                            <option value="6">На 6 персон</option>
+                            <option value="7">На 7 персон</option>
+                            <option value="8">На 8 персон</option>
                         </select>
                         <div className="cart__final-price-container cart__order-price">
                             <p className="cart__final-price"><span>Итоговая сумма: </span>{getFinalPrice(cart)}<span>руб.</span></p>
@@ -362,5 +371,21 @@ export function Cart() {
         }
         {isLoadingGetPrices && <Loading/>}
         {getPricesErr && <p className="menu-main__err">{getPricesErr}</p>}
+        <Popup
+            className="product-list__popup"
+            status={popupAlertStatus}
+            setStatus={setPopupAlertStatus}
+            isBgr={true}
+            closeHandle={() => navigate('/')}
+        >
+            <div className="product-list__delete-alert-container">
+                <p className="product-list__delete-alert">Заказ принят!</p>
+                <button 
+                    className="product-list__delete-alert-btn"
+                    onClick={() => navigate('/')}
+                    type="button"
+                >Отлично</button>
+            </div>
+        </Popup>
     </>)
 }

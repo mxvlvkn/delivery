@@ -374,6 +374,35 @@ export default class ValidationService {
             }
         }
 
+        if (!values.cart.length) {
+            const message = 'Корзина пустая, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (errorMessage.length) {
+            errorMessage = (errorMessage.endsWith(', ') ? errorMessage.slice(0, -2) : errorMessage) + '.';
+        }
+
+        return {
+            errorMessage,
+            status: (errorMessage) ? false : true
+        }
+    }
+    static  setOrderStatus(values) {
+        let maxErrorLen = 500;
+        let errorMessage = '';
+
+        const StatusValues = ['1get', '2delivery', '3done'];
+        
+        if (!StatusValues.includes(values.status)) {
+            const message = 'Ошибка определения статуса, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
         if (errorMessage.length) {
             errorMessage = (errorMessage.endsWith(', ') ? errorMessage.slice(0, -2) : errorMessage) + '.';
         }

@@ -13,6 +13,7 @@ import { SetCategory } from './pages/SetCategory.jsx';
 import { ProductPage } from './pages/ProductPage.jsx';
 import { Login } from './pages/Login.jsx';
 import { Cart } from './pages/Cart.jsx';
+import { Orders } from './pages/Orders.jsx';
 
 function App() {
     const location = useLocation();
@@ -55,6 +56,7 @@ function App() {
                     <Route path="/adpn-categories" element={<Categories/>}/>
                     <Route path="/adpn-categories-add" element={<AddCategory/>}/>
                     <Route path="/adpn-category-set/:id" element={<SetCategory/>}/>
+                    <Route path="/adpn-orders" element={<Orders/>}/>
                 </Routes>
             </main>
             <Footer/>

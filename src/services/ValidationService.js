@@ -283,12 +283,26 @@ export default class ValidationService {
             status: (errorMessage) ? false : true
         }
     }
-    static  sendOrder(values) {
+    static  sendOrder(values, cart) {
         let maxErrorLen = 500;
         let errorMessage = '';
 
         const DeliveryValues = ['delivery', 'self'];
         const ToolsValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+
+        if (!Array.isArray(cart)) {
+            const message = 'Ошибка получения корзины, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (!cart.length) {
+            const message = 'Корзина пустая, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
 
         if (!values.name.length) {
             const message = 'Имя пустое, ';
@@ -362,6 +376,28 @@ export default class ValidationService {
 
         if (!ToolsValues.includes(values.tools)) {
             const message = 'Ошибка определения приборов, ';
+            if (errorMessage.length + message.length < maxErrorLen) {
+                errorMessage += message;
+            }
+        }
+
+        if (errorMessage.length) {
+            errorMessage = (errorMessage.endsWith(', ') ? errorMessage.slice(0, -2) : errorMessage) + '.';
+        }
+
+        return {
+            errorMessage,
+            status: (errorMessage) ? false : true
+        }
+    }
+    static  setOrderStatus(status) {
+        let maxErrorLen = 500;
+        let errorMessage = '';
+
+        const StatusValues = ['1get', '2delivery', '3done'];
+        
+        if (!StatusValues.includes(status)) {
+            const message = 'Ошибка определения статуса, ';
             if (errorMessage.length + message.length < maxErrorLen) {
                 errorMessage += message;
             }

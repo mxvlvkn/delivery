@@ -97,3 +97,21 @@ SELECT
     ) AS products
 FROM category C
 GROUP BY C.id, C.name;
+
+CREATE OR REPLACE VIEW orders_with_cart AS
+SELECT 
+    o.*,
+    COALESCE(
+        json_agg(
+            json_build_object(
+                'name', p.name,
+                'img', p.img,
+                'count', pio.count
+            )
+        ) FILTER (WHERE pio.id IS NOT NULL),
+        '[]'::json
+    ) AS cart
+FROM orders o
+LEFT JOIN product_in_order pio ON o.id = pio.order_id
+LEFT JOIN product p ON pio.product_id = p.id
+GROUP BY o.id;

@@ -159,10 +159,8 @@ export default class DBService {
     }
     static async getProduct(id) {
         try {
-            console.log(id)
-
             const ResData = (await database.query('SELECT * FROM product WHERE id = $1', [id])).rows[0];
-            console.log(ResData)
+            
             return {
                 data: {
                     desc: ResData.description,
@@ -362,7 +360,7 @@ export default class DBService {
     }
     static async getMenu() {
         try {
-            const ResData = (await database.query('SELECT * FROM category_with_included_products')).rows
+            const ResData = (await database.query('SELECT * FROM category_with_included_products ORDER BY id')).rows
 
             return {
                 data: ResData,
@@ -388,7 +386,158 @@ export default class DBService {
                 status: true
             };
         } catch(err) {
-            console.log('DB: add product error: ' + err);
+            console.log('DB: get prices error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async beginTransaction() {
+        try {
+            const Data = (await database.query('BEGIN'));
+
+            return {
+                data: [],
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: begin transaction error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async commitTransaction() {
+        try {
+            const Data = (await database.query('COMMIT'));
+
+            return {
+                data: [],
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: commit transaction error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async cancelTransaction() {
+        try {
+            const Data = (await database.query('ROLLBACK'));
+
+            return {
+                data: [],
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: cancel transaction error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async addOrder(values) {
+        try {
+            const result = await database.query(
+                'INSERT INTO orders (name, phone, delivery, address, flat, comment, tools, price, status, order_date, order_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
+                [
+                    values.name,
+                    values.phone,
+                    values.delivery,
+                    values.address,
+                    values.flat,
+                    values.comment,
+                    values.tools,
+                    values.price,
+                    values.status,
+                    values.order_date,
+                    values.order_time
+                ]
+            );
+    
+            return {
+                data: { id: result.rows[0].id },
+                status: true
+            };
+        } catch (err) {
+            console.log('DB: add order error: ' + err);
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async addCartOrder(values, orderID) {
+        try {
+            let insertedData = [];
+            let queryTail = '';
+
+            values.forEach((item, index) => {
+                const i = index * 4;
+                queryTail += `($${i + 1}, $${i + 2}, $${i + 3}, $${i + 4}), `;
+                insertedData.push(orderID, item.id, item.count, item.price);
+            });
+            queryTail = queryTail.slice(0, -2);
+
+            await database.query(
+                `INSERT INTO product_in_order (order_id, product_id, count, current_price) VALUES ${queryTail}`,
+                insertedData
+            );
+    
+            return {
+                data: [],
+                status: true
+            };
+        } catch (err) {
+            console.log('DB: add cart order error: ' + err);
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async getOrders() {
+        try {
+            const ResData = (await database.query('SELECT * FROM orders_with_cart ORDER BY status ASC, id ASC')).rows
+
+            return {
+                data: ResData,
+                status: Array.isArray(ResData)
+            };
+        } catch(err) {
+            console.log('DB: get orders: ' + err);
+            
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+    static async setOrderStatusByID(values) {
+        try {
+            await database.query(
+                'UPDATE orders SET status = $1 WHERE id = $2',
+                [
+                    values.status,
+                    values.id,
+                ]
+            );
+
+            return {
+                data: [],
+                status: true
+            };
+        } catch(err) {
+            console.log('DB: set category by ID error: ' + err);
 
             return {
                 data: [],
